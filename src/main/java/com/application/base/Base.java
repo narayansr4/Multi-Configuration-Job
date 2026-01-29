@@ -1,6 +1,7 @@
 package com.application.base;
 
 import com.application.driver.Driver;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Base {
-    public static Properties prop;
+    protected static Properties prop;
 
 
     public Base() {
@@ -31,16 +32,18 @@ public class Base {
     @BeforeMethod
     public void setup(){
         WebDriver driver = null;
-        //String browser = System.getProperty("browser");
-        String browser = "chrome";
-        switch (browser){
-            case "chrome" : driver = new ChromeDriver();
+        String browser = System.getProperty("browser","chrome");
+        //String browser = "chrome";
+        switch (browser.toLowerCase()){
+
+            case "edge" : WebDriverManager.edgedriver().setup();
+                driver = new EdgeDriver();
                 break;
-            case "edge" : driver = new EdgeDriver();
+            case "firefox" :
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
                 break;
-            case "firefox" : driver = new FirefoxDriver();
-                break;
-            default: System.out.println("Invalid Browser choice");
+            default: WebDriverManager.chromedriver().setup();
         }
         Driver.setDriver(driver);
         Driver.getDriver().manage().window().maximize();
@@ -49,8 +52,10 @@ public class Base {
 
     @AfterMethod
     public void teardown(){
-        Driver.getDriver().quit();
-        Driver.removeDriver();
+        if (Driver.getDriver()!= null) {
+            Driver.getDriver().quit();
+            Driver.removeDriver();
+        }
     }
 
     }
