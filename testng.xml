@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Login Scenarios" parallel="tests" thread-count="3">
+    <test name="Verify Login valid case">
+        <classes>
+            <class name="com.application.testcases.LoginTest"/>
+        </classes>
+    </test>
+    <test name="Verify Login with blank credentials">
+        <classes>
+            <class name="com.application.testcases.LoginTestBlankCredentials"/>
+        </classes>
+    </test>
+    <test name="Verify Login with blank email">
+        <classes>
+            <class name="com.application.testcases.LoginTestBlankEmail"/>
+        </classes>
+    </test>
+    <test name="Verify Login with blank password">
+        <classes>
+            <class name="com.application.testcases.LoginTestBlankPassword"/>
+        </classes>
+    </test>
+    <test name="Verify login with invalid credentials">
+        <classes>
+            <class name="com.application.testcases.LoginTestInvalidCreds"/>
+        </classes>
+    </test>
+</suite>
