@@ -4,7 +4,9 @@ import com.application.driver.Driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -37,6 +39,8 @@ public class Base {
         switch (browser.toLowerCase()){
 
             case "edge" : WebDriverManager.edgedriver().setup();
+                EdgeOptions options = new EdgeOptions();
+                options.addArguments("--headless=new");
                 driver = new EdgeDriver();
                 break;
             case "firefox" :
@@ -44,6 +48,9 @@ public class Base {
                 driver = new FirefoxDriver();
                 break;
             default: WebDriverManager.chromedriver().setup();
+                ChromeOptions options2 = new ChromeOptions();
+                options2.addArguments("--headless=new");
+                driver = new ChromeDriver(options2);
         }
         Driver.setDriver(driver);
         Driver.getDriver().manage().window().maximize();
